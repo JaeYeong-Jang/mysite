@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
+<%@ page import="java.util.List" %>
+<%@ page import="com.javaex.vo.GuestBookVo" %>
+
+<%
+	List<GuestBookVo> guestBookList = (List<GuestBookVo>)request.getAttribute("gList");
+%>
     
 <!DOCTYPE html>
 <html>
@@ -71,7 +77,7 @@
 				<!-- //content-head -->
 
 				<div id="guestbook">
-					<form action="list" method="post">
+					<form action="/mysite/guest" method="post">
 						<table id="guestAdd">
 							<colgroup>
 								<col style="width: 70px;">
@@ -96,29 +102,14 @@
 							
 						</table>
 						<!-- //guestWrite -->
-						<input type="hidden" name="action" value="add">
+						<input type="hidden" name="action" value="insert">
 						
 					</form>	
-					
-					<table class="guestRead">
-						<colgroup>
-							<col style="width: 10%;">
-							<col style="width: 40%;">
-							<col style="width: 40%;">
-							<col style="width: 10%;">
-						</colgroup>
-						<tr>
-							<td>1234555</td>
-							<td>이정재</td>
-							<td>2020-03-03 12:12:12</td>
-							<td><a href="">[삭제]</a></td>
-						</tr>
-						<tr>
-							<td colspan=4 class="text-left">방명록 글입니다. 방명록 글입니다.</td>
-						</tr>
-					</table>
+
 					<!-- //guestRead -->
 					
+					<%for(int i =0; i < guestBookList.size(); i++){ %>
+					
 					<table class="guestRead">
 						<colgroup>
 								<col style="width: 10%;">
@@ -127,15 +118,19 @@
 								<col style="width: 10%;">
 						</colgroup>
 						<tr>
-							<td>1234555</td>
-							<td>이정재</td>
-							<td>2020-03-03 12:12:12</td>
-							<td><a href="">[삭제]</a></td>
+							<td><%=guestBookList.get(i).getNo() %></td>
+							<td><%=guestBookList.get(i).getName() %></td>
+							<td><%=guestBookList.get(i).getDate() %></td>
+							<td><a href="/mysite/guest?action=dform&id=<%=guestBookList.get(i).getNo() %>">[삭제]</a></td>
 						</tr>
 						<tr>
-							<td colspan=4 class="text-left">방명록 글입니다. 방명록 글입니다.</td>
+							<td colspan=4 class="text-left"><%=guestBookList.get(i).getContent() %></td>
 						</tr>
 					</table>	
+					<%
+						} 
+					%>
+					
 					<!-- //guestRead -->
 					
 				</div>
@@ -147,7 +142,7 @@
 		<!-- //container  -->
 
 		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
+			Copyright ⓒ 2020 xkxh96. All right reserved
 		</div>
 		<!-- //footer -->
 	</div>
