@@ -3,6 +3,7 @@ package com.javaex.vo;
 public class UserVo {
 	
 	//fields
+	private int no;
 	private String id;
 	private String pw;
 	private String name;
@@ -13,24 +14,37 @@ public class UserVo {
 	public UserVo() {
 		
 	}
-		
-	public UserVo(String id, String pw, String name, String gender) {
+	
+	public UserVo(String id,String pw) {
 		this.id = id;
 		this.pw = pw;
+	}
+		
+	public UserVo(String id, String pw, String name, String gender) {
+		this(id, pw);
 		this.name = name;
 		this.gender = gender;
 	}
 	
 	public UserVo(String id, String pw, String name, String gender, String chk_agree) {
-		this();
+		this(id,pw,name,gender);
 		this.chk_agree = chk_agree;
 		
 	}
 	
 	//g/s
+	
 	public String getId() {
 		return id;
 	}
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}

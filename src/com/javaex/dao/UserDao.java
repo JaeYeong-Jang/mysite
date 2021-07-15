@@ -86,6 +86,52 @@ public class UserDao {
 		return count;
 	}
 	
+	public UserVo getUser(UserVo userVo) {
+		
+		UserVo uVo = null;
+		
+		this.getconnection();
+		
+		try {
+			String query = "";
+			
+			query += "select no, ";
+			query += "		 name ";
+			query += "from users ";
+			query += "where id = ? ";
+			query += "	    and password = ? ";
+			
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setString(1, userVo.getId());
+			pstmt.setString(2, userVo.getPw());
+			
+			rs = pstmt.executeQuery();
+			
+			//결과처리
+			while(rs.next()) {
+				
+				int no = rs.getInt("no");
+				String name = rs.getString("name");
+				
+				//생성자가 없을 떈 setter이용
+				uVo = new UserVo();
+				uVo.setNo(no);
+				uVo.setName(name);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.Close();
+		
+		return uVo;
+		
+	}
+	
 	//
 
 }
