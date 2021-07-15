@@ -19,9 +19,19 @@ public class UserVo {
 		this.id = id;
 		this.pw = pw;
 	}
+	
+	public UserVo(int no,String id, String pw, String name, String gender) {
+		this.no = no;
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.gender = gender;
+		
+	}
 		
 	public UserVo(String id, String pw, String name, String gender) {
-		this(id, pw);
+		this.id = id;
+		this.pw = pw;
 		this.name = name;
 		this.gender = gender;
 	}

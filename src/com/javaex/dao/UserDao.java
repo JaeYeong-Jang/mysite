@@ -76,7 +76,7 @@ public class UserDao {
 			pstmt.setString(4, userVo.getGender());
 
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,53 +85,88 @@ public class UserDao {
 
 		return count;
 	}
-	
-	public UserVo getUser(UserVo userVo) {
-		
-		UserVo uVo = null;
-		
+
+	// modify
+	public void userModify(UserVo userVo) {
+
 		this.getconnection();
-		
+
 		try {
 			String query = "";
-			
-			query += "select no, ";
-			query += "		 name ";
-			query += "from users ";
-			query += "where id = ? ";
-			query += "	    and password = ? ";
-			
+
+			query += "update users ";
+			query += "set name = ?, ";
+			query += "    password = ?, ";
+			query += "    gender = ? ";
+			query += "where no = ? ";
+
 			pstmt = conn.prepareStatement(query);
 			
-			pstmt.setString(1, userVo.getId());
+			pstmt.setString(1, userVo.getName());
 			pstmt.setString(2, userVo.getPw());
+			pstmt.setString(3, userVo.getGender());
+			pstmt.setInt(4, userVo.getNo());
 			
-			rs = pstmt.executeQuery();
-			
-			//결과처리
-			while(rs.next()) {
-				
-				int no = rs.getInt("no");
-				String name = rs.getString("name");
-				
-				//생성자가 없을 떈 setter이용
-				uVo = new UserVo();
-				uVo.setNo(no);
-				uVo.setName(name);
-				
-			}
+			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		this.Close();
-		
-		return uVo;
-		
+
 	}
-	
+
+	public UserVo getUser(UserVo userVo) {
+
+		UserVo uVo = null;
+
+		this.getconnection();
+
+		try {
+			String query = "";
+
+			query += "select no, ";
+			query += "		 name, ";
+			query += "       id ";
+			query += "from users ";
+			query += "where id = ? ";
+			query += "	    and password = ? ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setString(1, userVo.getId());
+			pstmt.setString(2, userVo.getPw());
+
+			rs = pstmt.executeQuery();
+
+			// 결과처리
+			while (rs.next()) {
+
+				int no = rs.getInt("no");
+				String name = rs.getString("name");
+				String id = rs.getString("id");
+
+				// 생성자가 없을 떈 setter이용
+				uVo = new UserVo();
+				uVo.setNo(no);
+				uVo.setName(name);
+				uVo.setId(id);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		this.Close();
+
+		return uVo;
+
+	}
+
 	//
 
 }
