@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%
-
-int no = Integer.parseInt(request.getParameter("no"));
-String id = request.getParameter("id");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -53,13 +49,13 @@ String id = request.getParameter("id");
 					<div id="modifyForm">
 						<form action="/mysite/user" method="post">
 						
-							<input type ="hidden" name="no" value="<%=no %>">
-							<input type ="hidden" name="id" value="<%=id %>">
+							<input type ="hidden" name="no" value="${param.no}">
+							<input type ="hidden" name="id" value="${param.id}">
  							<input type ="hidden" name="action" value="modify">
 								
 							<!-- 아이디 -->
 							<div class="form-group">
-								<label class="form-text" for="input-uid">아이디</label> <span class="text-large bold"><%=id %></span>
+								<label class="form-text" for="input-uid">아이디</label> <span class="text-large bold">${param.id }</span>
 							</div>
 
 							<!-- 비밀번호 -->

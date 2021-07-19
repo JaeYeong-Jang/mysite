@@ -1,18 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ page import="com.javaex.vo.UserVo" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.javaex.vo.GuestBookVo" %>
+	pageEncoding="UTF-8"%>
 
-<%
-	//login관련
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-	//List출력 관련
-	List<GuestBookVo> guestBookList = (List<GuestBookVo>)request.getAttribute("gList");
-%>
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,8 +17,8 @@
 <body>
 	<div id="wrap">
 		<!-- header -->
-		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
-		
+		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
+
 		<div id="container" class="clearfix">
 			<div id="aside">
 				<h2>방명록</h2>
@@ -40,7 +30,7 @@
 			<!-- //aside -->
 
 			<div id="content">
-				
+
 				<div id="content-head" class="clearfix">
 					<h3>일반방명록</h3>
 					<div id="location">
@@ -67,58 +57,56 @@
 									<th><label class="form-text" for="input-uname">이름</label></th>
 									<td><input id="input-uname" type="text" name="name"></td>
 									<th><label class="form-text" for="input-pass">패스워드</label></th>
-									<td><input id="input-pass"type="password" name="password"></td>
+									<td><input id="input-pass" type="password" name="password"></td>
 								</tr>
 								<tr>
-									<td colspan="4"><textarea name="content" cols="72" rows="5"></textarea></td>
+									<td colspan="4"><textarea name="content" cols="72"
+											rows="5"></textarea></td>
 								</tr>
 								<tr class="button-area">
 									<td colspan="4" class="text-center"><button type="submit">등록</button></td>
 								</tr>
 							</tbody>
-							
+
 						</table>
 						<!-- //guestWrite -->
 						<input type="hidden" name="action" value="insert">
-						
-					</form>	
+
+					</form>
 
 					<!-- //guestRead -->
-					
-					<%for(int i =0; i < guestBookList.size(); i++){ %>
-					
-					<table class="guestRead">
-						<colgroup>
+					<c:forEach items="${gList }" var="gList">
+
+						<table class="guestRead">
+							<colgroup>
 								<col style="width: 10%;">
 								<col style="width: 40%;">
 								<col style="width: 40%;">
 								<col style="width: 10%;">
-						</colgroup>
-						<tr>
-							<td><%=guestBookList.get(i).getNo() %></td>
-							<td><%=guestBookList.get(i).getName() %></td>
-							<td><%=guestBookList.get(i).getDate() %></td>
-							<td><a href="/mysite/guest?action=dform&id=<%=guestBookList.get(i).getNo() %>">[삭제]</a></td>
-						</tr>
-						<tr>
-							<td colspan=4 class="text-left"><%=guestBookList.get(i).getContent() %></td>
-						</tr>
-					</table>	
-					<%
-						} 
-					%>
-					
+							</colgroup>
+							<tr>
+								<td>${gList.no }</td>
+								<td>${gList.name }</td>
+								<td>${gList.date }</td>
+								<td><a href="/mysite/guest?action=dform&id=${gList.no }">[삭제]</a></td>
+							</tr>
+							<tr>
+								<td colspan=4 class="text-left">${gList.content }</td>
+							</tr>
+						</table>
+					</c:forEach>
+
 					<!-- //guestRead -->
-					
+
 				</div>
 				<!-- //guestbook -->
-			
+
 			</div>
 			<!-- //content  -->
 		</div>
 		<!-- //container  -->
 
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

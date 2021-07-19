@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%
-int guestId = Integer.parseInt(request.getParameter("id"));
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,7 +15,7 @@ int guestId = Integer.parseInt(request.getParameter("id"));
 <body>
 	<div id="wrap">
 		<!-- header -->
-		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		
 		<div id="container" class="clearfix">
 			<div id="aside">
@@ -61,7 +58,7 @@ int guestId = Integer.parseInt(request.getParameter("id"));
 								<td><a href="/mysite/main">[메인으로 돌아가기]</a></td>
 							</tr>
 						</table>
-						<input type='hidden' name="id" value="<%=guestId %>">
+						<input type='hidden' name="id" value="${param.id }">
 						<input type='hidden' name="action" value="delete">
 					</form>
 					
@@ -73,7 +70,7 @@ int guestId = Integer.parseInt(request.getParameter("id"));
 		</div>
 		<!-- //container  -->
 		
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>

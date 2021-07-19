@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<%@ page import="com.javaex.vo.UserVo"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -10,19 +9,13 @@
 <link href="./assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="./assets/css/main.css" rel="stylesheet" type="text/css">
 
-<%
-UserVo authUser = (UserVo) session.getAttribute("authUser");
-System.out.println(authUser);
-%>
-
 </head>
 
 <body>
 	<div id="wrap">
 	
-		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
-		
-		
+		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
+				
 		<div id="container" class="clearfix">
 			<!-- aside 없음 -->
 			<div id="full-content">
@@ -56,7 +49,7 @@ System.out.println(authUser);
 		<!-- //container -->
 
 
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>
