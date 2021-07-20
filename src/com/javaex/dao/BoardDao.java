@@ -108,7 +108,7 @@ public class BoardDao {
 	public void boardDelete(int userNo) {
 
 		this.getconnection();
-		
+
 		int count = 0;
 
 		try {
@@ -120,11 +120,11 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(query);
 
 			pstmt.setInt(1, userNo);
-			
+
 			count = pstmt.executeUpdate();
-			
+
 			System.out.println(count + "건 삭제되었습니다.");
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,39 +133,117 @@ public class BoardDao {
 		this.Close();
 
 	}
-	
-	//글쓰기
+
+	// 글쓰기
 	public void boardWrite(BoardVo boardVo) {
-		
+
 		this.getconnection();
-		
+
 		int count = 0;
-		
+
 		try {
-			
-		String query = "";
-		
-		query += "insert into board ";
-		query += "values(seq_board_no.nextval,?,?,0,sysdate,?) ";
-		
-		
+
+			String query = "";
+
+			query += "insert into board ";
+			query += "values(seq_board_no.nextval, ? , ?, 0, sysdate, ?) ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setInt(3, boardVo.getUserNo());
+
+			count = pstmt.executeUpdate();
+
+			System.out.println(count + "건 등록되었습니다.");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		this.Close();
+
+	}
+
+	// 글쓴이 정보 읽기
+	public BoardVo getWriterInfo(int no) {
+
+		this.getconnection();
+
+		BoardVo boardVo = null;
+
+		try {
+
+			String query = "";
+
+			query += "select us.name, ";
+			query += "       bo.no, ";
+			query += "		 bo.hit, ";
+			query += "       bo.reg_date, ";
+			query += "       bo.title, ";
+			query += "       bo.content ";
+			query += "from users us, board bo ";
+			query += "where bo.no = ? ";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				String name = rs.getString("name");
+				int bno = rs.getInt("no");
+				int hit = rs.getInt("hit");
+				String date = rs.getString("reg_date");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+
+				boardVo = new BoardVo(name, bno, hit, date, title, content);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		this.Close();
+
+		return boardVo;
+
+	}
+
+	public void boardUpdate(BoardVo boardVo) {
+
+		this.getconnection();
+
+		try {
+
+			String query = "";
+
+			query += "update board ";
+			query += "set title = ?, ";
+			query += "    content = ? ";
+			query += "where no = ? ";
+
 			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setString(1, boardVo.getTitle());
 			pstmt.setString(2, boardVo.getContent());
-			pstmt.setInt(3, boardVo.getUserNo());
+			pstmt.setInt(3, boardVo.getNo());
 			
-			count = pstmt.executeUpdate();
-			
-			System.out.println(count + "건 등록되었습니다.");
+			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		this.Close();
-		
+
 	}
 
 }

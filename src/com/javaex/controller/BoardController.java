@@ -50,7 +50,7 @@ public class BoardController extends HttpServlet {
 			
 			System.out.println("삭제완료");
 			System.out.println("포워드");
-			WebUtil.redirecr(request, response, "/mysite/board?action=list");
+			WebUtil.redirecr(request, response, "./board?action=list");
 			
 		}//글쓰기 폼
 		else if("writeForm".equals(action)) {
@@ -58,25 +58,77 @@ public class BoardController extends HttpServlet {
 			
 			WebUtil.forword(request, response, "/WEB-INF/views/board/writeForm.jsp");
 			
-		}else if("write".equals(action)) {
+		}//글쓰기
+		else if("write".equals(action)) {
 			System.out.println("글쓰기");
 			
 			HttpSession session = request.getSession();
-			UserVo authUser = (UserVo)session.getAttribute("authUeser");
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
 			
 			BoardDao boardDao = new BoardDao();
 			
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			int userNo = authUser.getNo();
-			
+			System.out.println(userNo);
 			BoardVo boardVo = new BoardVo(title, content, userNo);
 			
 			boardDao.boardWrite(boardVo);
 			
-			WebUtil.redirecr(request, response, "/mysite/board?action=list");
+			WebUtil.redirecr(request, response, "./board?action=list");
+			
+		}//읽기
+		else if("read".equals(action)) {
+			System.out.println("읽기");
+			
+			BoardVo boardVo = new BoardVo();
+			
+			int bNo = Integer.parseInt(request.getParameter("no"));
+			
+			System.out.println(bNo);
+			
+			BoardDao boardDao = new BoardDao();
+			boardVo = boardDao.getWriterInfo(bNo);
+			
+			request.setAttribute("bVo", boardVo);
+			
+			WebUtil.forword(request, response, "/WEB-INF/views/board/read.jsp");
+			
+		}//수정폼
+		else if("modifyForm".equals(action)) {
+			System.out.println("수정폼");
+			
+			BoardVo boardVo = new BoardVo();
+			
+			int bNo = Integer.parseInt(request.getParameter("no"));
+			
+			BoardDao boardDao = new BoardDao();
+			boardVo = boardDao.getWriterInfo(bNo);
+			
+			request.setAttribute("uVo", boardVo);
+			
+			WebUtil.forword(request, response, "/WEB-INF/views/board/modifyForm.jsp");
+			
+		}//수정
+		else if("update".equals(action)) {
+			System.out.println("수정");
+			
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			int uno = Integer.parseInt(request.getParameter("no"));
+			
+			BoardVo boardVo = new BoardVo(uno, title, content);
+			BoardDao boardDao = new BoardDao();
+			boardDao.boardUpdate(boardVo);
+			
+			System.out.println(boardVo);
+			
+			System.out.println("수정성공");
+			
+			WebUtil.redirecr(request, response, "./board?action=list");
 			
 		}
+		
 
 	}
 

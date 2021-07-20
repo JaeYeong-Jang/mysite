@@ -66,7 +66,7 @@
 								<c:forEach items="${bList}" var="bList">
 									<tr>
 										<td>${bList.no}</td>
-										<td class="text-left"><a href="">${bList.title}</a></td>
+										<td class="text-left"><a href="./board?action=read&no=${bList.no}">${bList.title}</a></td>
 										<td>${bList.name}</td>
 										<td>${bList.hit}</td>
 										<td>${bList.regDate}</td>
@@ -121,7 +121,6 @@
 
 		</div>
 		<!-- //container  -->
-
 
 		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 		<!-- //footer -->
